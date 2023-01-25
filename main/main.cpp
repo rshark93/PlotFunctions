@@ -13,6 +13,18 @@ calculate_function::~calculate_function() {
 	std::cout << "\ncalculate_function destructor" << std::endl;
 }
 
+calculate_function* calculate_function::get_instance() {
+	if (!instance_)
+		instance_ = new calculate_function();
+	
+	return instance_;
+}
+
+void calculate_function::reset_instance() {
+	delete instance_;
+	instance_ = nullptr;
+}
+
 void calculate_function::init_plot_setting(const double x_start, const double x_end, const double y_min,
 	const double y_max, const int max_points)
 {
@@ -34,7 +46,7 @@ void calculate_function::calculate(const std::string& graph_name, double(* math_
 	for (auto x = x_start_value_; x < x_end_value_; x += step) {
 		auto y = math_func(x);
 
-		if(y < y_min_value_) y = y_min_value_;
+		if (y < y_min_value_) y = y_min_value_;
 		if (y > y_max_value_) y = y_max_value_;
 
 		function_result.push_back(point2d{ x, y });
@@ -107,7 +119,7 @@ int main(const int argc, char* argv[]) {
 	constexpr auto first_fun_name = "10^tg(x)";
 	constexpr auto second_fun_name = "10^sin(x)";
 
-	const auto calculate_obj = std::make_unique<calculate_function>();
+	const auto calculate_obj = calculate_function::get_instance();
 
 	calculate_obj->init_plot_setting(x_start, x_end, min_y, max_y, total_points);
 
@@ -121,6 +133,8 @@ int main(const int argc, char* argv[]) {
 
 	calculate_obj->plot_graphic(first_fun_name, RED, dot_size);
 	calculate_obj->plot_graphic(second_fun_name, GREEN, dot_size);
+
+	calculate_function::reset_instance();
 
 	return EXIT_SUCCESS;
 }
