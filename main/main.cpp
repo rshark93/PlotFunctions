@@ -101,8 +101,8 @@ int main(const int argc, char* argv[]) {
 	constexpr auto x_start = 0.;
 	constexpr auto x_end = 6.;
 
-	constexpr auto min_y = -50.f;
-	constexpr auto max_y = 50.f;
+	constexpr auto min_y = -50.;
+	constexpr auto max_y = 50.;
 
 	constexpr auto first_fun_name = "10^tg(x)";
 	constexpr auto second_fun_name = "10^sin(x)";
@@ -119,11 +119,8 @@ int main(const int argc, char* argv[]) {
 
 	constexpr auto dot_size = 5.f;
 
-	if(!calculate_obj->plot_graphic(second_fun_name, RED, dot_size))
-		return EXIT_FAILURE;
-	
-	if (!calculate_obj->plot_graphic(first_fun_name, GREEN, dot_size))
-		return EXIT_FAILURE;
+	calculate_obj->plot_graphic(first_fun_name, RED, dot_size);
+	calculate_obj->plot_graphic(second_fun_name, GREEN, dot_size);
 
 	return EXIT_SUCCESS;
 }
